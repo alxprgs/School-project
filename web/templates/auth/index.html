@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Page</title>
+    <link rel="stylesheet" href="templates/auth/index.css">
+</head>
+<body>
+    <div class="container">
+        <h2 id="form-title">Авторизация</h2>
+        <form id="auth-form">
+            <div id="auth-fields">
+                <input type="text" id="username" name="username" placeholder="Имя пользователя" required>
+                <input type="password" id="password" name="password" placeholder="Пароль" required>
+            </div>
+            <div id="register-fields" style="display: none;">
+                <input type="email" id="email" name="mail" placeholder="Электронная почта">
+                <input type="password" id="password-repetition" name="password_repetition" placeholder="Повторите пароль">
+            </div>
+            <button type="submit" id="submit-button">Войти</button>
+        </form>
+        <button id="toggle-button">Нет аккаунта? Зарегистрироваться</button>
+    </div>
+
+    <script src="templates/auth/index.js"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 
 from web.functions import *
 
-app = FastAPI(version="Beta 1.0 | Build 02.09.2024",
+app = FastAPI(version="Beta 1.0 | Build 03.09.2024",
               debug=True,)
 config = ConfigManager.open_config()
 
