@@ -1,0 +1,24 @@
+{
+    "setup": {
+        "databases": {
+            "mongodb_link": "mongodb://localhost:27017",
+            "mongodb_Link_2": "mongodb://root:JO7ccAcECUYIHp2QDw@mongodb:27017/yourdb?authSource=admin",
+            "mysql": {
+                "mysql_login": "root",
+                "mysql_password": "Mw3CeWHbc3EsTJbBjqNg",
+                "mysql_ip": "localhost",
+                "mysql_port": "3306"
+            }
+        },
+        "root_user": {
+            "login": "root",
+            "password": "XSb%BGsofj~8mp8j%?Y2"
+        }
+    },
+    "system": {
+        "internet_status": true,
+        "os": "nt",
+        "local_ip": "26.184.202.31",
+        "external_ip": "176.192.181.163"
+    }
+}

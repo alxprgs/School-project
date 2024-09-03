@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  web:
+    image: site:latest
+    ports:
+      - "5000:5000" 
+    depends_on:
+      - mongodb
+      - mysql
+    environment:
+      MONGODB_URI: mongodb://root:JO7ccAcECUYIHp2QDw@mongodb:27017/yourdb?authSource=admin
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Mw3CeWHbc3EsTJbBjqNg
+      MYSQL_DATABASE: site
+    networks:
+      - webnet
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: JO7ccAcECUYIHp2QDw
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - webnet
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Mw3CeWHbc3EsTJbBjqNg
+      MYSQL_DATABASE: site
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - webnet
+
+volumes:
+  mongo_data:
+  mysql_data:
+
+networks:
+  webnet:
