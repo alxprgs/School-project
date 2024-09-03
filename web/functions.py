@@ -136,6 +136,20 @@ class UserManager:
                 ServerManager.server_log(text="Удачная попытка создания суперпользователя.", type=1)
             except pymongo.errors.OperationFailure as e:
                 ServerManager.server_log(text="Неудачная попытка создания суперпользователя.", type=2, e=e)
+    
+    @staticmethod
+    def check_auth(Response, request):
+        auth = request.cookies.get('auth')
+        if auth == True:
+            from web import database
+            auth_token = request.cookies.get('auth_token')
+            user = database["users"].find_one({"session":{"token": f"{auth_token}"}})
+            if user:
+                return True
+            else:
+                return False
+        else:
+            return False
 
 class Application:
     @staticmethod
