@@ -138,18 +138,38 @@ class UserManager:
                 ServerManager.server_log(text="Неудачная попытка создания суперпользователя.", type=2, e=e)
     
     @staticmethod
-    def check_auth(Response, request):
+    def check_auth(request):
         auth = request.cookies.get('auth')
-        if auth == True:
+        if auth == 'true':
             from web import database
             auth_token = request.cookies.get('auth_token')
-            user = database["users"].find_one({"session":{"token": f"{auth_token}"}})
+            user = database["users"].find_one({"session": {"token": auth_token}})
+            
             if user:
                 return True
             else:
                 return False
         else:
             return False
+
+    @staticmethod
+    def check_access(request, permission: str):
+        auth = request.cookies.get('auth')
+        
+        if auth == 'true':
+            from web import database
+            auth_token = request.cookies.get('auth_token')
+            user = database["users"].find_one({"session": {"token": auth_token}})
+            
+            if user and "permissions" in user:
+                has_permission = user["permissions"].get(permission, False)
+                administrator = user["permissions"].get("administrator", False)
+                
+                return has_permission or administrator
+        
+        return False
+
+
 
 class Application:
     @staticmethod

@@ -11,6 +11,7 @@ app = FastAPI(version="Beta 1.0 | Build 03.09.2024",
               debug=True,)
 config = ConfigManager.open_config()
 
+app.mount("/static", StaticFiles(directory="web/static"), name="static")
 app.mount("/templates", StaticFiles(directory="web/templates"), name="templates")
 templates = Jinja2Templates(directory="web/templates")
 
@@ -18,3 +19,4 @@ client = pymongo.MongoClient(config["setup"]["databases"]["mongodb_link"])
 database = client["site"]
 
 from web.routes.auth import backend
+from web.routes import main

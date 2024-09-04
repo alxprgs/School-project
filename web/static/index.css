@@ -1,0 +1,50 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.access-button {
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+    border: 4px solid transparent;
+    background-color: #ffffff;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.access-button.green {
+    border-color: green;
+}
+
+.access-button.red {
+    border-color: red;
+}
+
+.button-link {
+    text-decoration: none;
+    color: black;
+}
+
+.access-button:hover {
+    transform: scale(1.05);
+}

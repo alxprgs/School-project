@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="/static/reg_log.css">
+</head>
+<body>
+    <form action="/auth/callback/password" method="post">
+        <h2>Авторизация</h2>
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Войти</button>
+        <a href="/register" class="register-link">Зарегистрироваться</a>
+        <div id="error-message" class="error-message"></div>
+    </form>
+</body>
+</html>

@@ -6,13 +6,25 @@ import secrets
 import pymongo
 
 
-@app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("auth/index.html", {"request": request})
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request, response: Response):
+    auth= UserManager.check_auth(request=request)
+    if auth:
+        return RedirectResponse("/")
+    else:
+        return templates.TemplateResponse("auth/login.html", {"request": request})
+
+@app.get("/register", response_class=HTMLResponse)
+async def register_page(request: Request, response: Response):
+    auth= UserManager.check_auth(request=request)
+    if auth:
+        return RedirectResponse("/")
+    else:
+        return templates.TemplateResponse("auth/register.html", {"request": request})
 
 @app.post("/auth/callback/password")
 async def callback_password(request: Request):
-    form_data = await request.json()
+    form_data = await request.form()
     username = form_data.get("username")
     password = form_data.get("password")
 
@@ -30,7 +42,7 @@ async def callback_password(request: Request):
                     {"_id": user["_id"]},
                     {"$set": {"session": {"token": token}}}
                 )
-                response = RedirectResponse(url="/main")
+                response = RedirectResponse(url="/", status_code=303)
                 response.set_cookie(key="auth_token", value=token, httponly=True, secure=True)
                 response.set_cookie(key="auth", value="true", httponly=True, secure=True)
                 response.set_cookie(key="auth_type", value="Password", httponly=True, secure=True)
@@ -44,7 +56,7 @@ async def callback_password(request: Request):
 
 @app.post("/auth/callback/registration")
 async def registration(request: Request):
-    form_data = await request.json()
+    form_data = await request.form()
     username = form_data.get("username")
     mail = form_data.get("mail")
     password = form_data.get("password")
@@ -79,7 +91,7 @@ async def registration(request: Request):
             "permissions": {}
         })
         ServerManager.server_log(text=f"Удачная попытка создания пользователя '{username}'.", type=1)
-        response = RedirectResponse(url="/main")
+        response = RedirectResponse(url="/")
         response.set_cookie(key="auth_token", value=token, httponly=True, secure=True)
         response.set_cookie(key="auth", value="true", httponly=True, secure=True)
         response.set_cookie(key="auth_type", value="Password", httponly=True, secure=True)

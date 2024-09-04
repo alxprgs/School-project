@@ -10,6 +10,18 @@
                 "mysql_port": "3306"
             }
         },
+        "mail": {
+            "info_prghorse.ru": {
+                "login": "info@prghorse.ru",
+                "password": "MDRyygV5g0QttuWeiZGD",
+                "imap_server": "imap.mail.ru",
+                "imap_port": "993",
+                "POP3_server": "pop.mail.ru",
+                "POP3_port": "995",
+                "smtp_server": "smtp.mail.ru",
+                "smpt_port": "465"
+            }
+        },
         "root_user": {
             "login": "root",
             "password": "XSb%BGsofj~8mp8j%?Y2"
