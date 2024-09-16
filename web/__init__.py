@@ -1,4 +1,5 @@
 import pymongo
+import gridfs
 
 from fastapi.staticfiles import StaticFiles
 from fastapi import *
@@ -13,10 +14,12 @@ config = ConfigManager.open_config()
 
 app.mount("/static", StaticFiles(directory="web/static"), name="static")
 app.mount("/templates", StaticFiles(directory="web/templates"), name="templates")
+app.mount("/temp", StaticFiles(directory="web/temp"), name="temp")
 templates = Jinja2Templates(directory="web/templates")
 
 client = pymongo.MongoClient(config["setup"]["databases"]["mongodb_link"])
 database = client["site"]
+fs = gridfs.GridFS(database=database)
 
 from web.routes.auth import backend
-from web.routes import main
+from web.routes import main, diary_gdz

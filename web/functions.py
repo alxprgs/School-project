@@ -11,6 +11,7 @@ import requests
 import hashlib
 import secrets
 import pymongo
+import time
 
 init()
 
@@ -168,6 +169,46 @@ class UserManager:
                 return has_permission or administrator
         
         return False
+    
+class VirusTotal:
+    def upload_file(file_path):
+        API_KEY = '9bfab07d4e6f6ff054af3b4719a65e86436d9ad3a87c2877d56acf0beb781555'
+        BASE_URL = 'https://www.virustotal.com/vtapi/v2/'
+        url = BASE_URL + 'file/scan'
+        params = {'apikey': API_KEY}
+        files = {'file': (file_path, open(file_path, 'rb'))}
+        response = requests.post(url, files=files, params=params)
+        
+        if response.status_code == 200:
+            result = response.json()
+            return result.get('scan_id')
+        else:
+            raise Exception(f"Ошибка при загрузке файла: {response.text}")
+
+
+    def get_report(scan_id):
+        API_KEY = '9bfab07d4e6f6ff054af3b4719a65e86436d9ad3a87c2877d56acf0beb781555'
+        BASE_URL = 'https://www.virustotal.com/vtapi/v2/'
+        url = BASE_URL + 'file/report'
+        params = {'apikey': API_KEY, 'resource': scan_id}
+        
+        while True:
+            response = requests.get(url, params=params)
+            result = response.json()
+            
+            if result.get('response_code') == 1:
+                return result
+            print("Ожидание обработки файла...")
+            time.sleep(10)
+
+
+    def check_file(file_path):
+        try:
+            scan_id = VirusTotal.upload_file(file_path)
+            report = VirusTotal.get_report(scan_id)
+            return report
+        except Exception as e:
+            print(f"Ошибка: {e}")
 
 
 

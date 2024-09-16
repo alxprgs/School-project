@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Электронный дневник</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            width: 100%;
+            height: 25%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            top: 30px;
+            box-sizing: border-box;
+        }
+        .date {
+            margin: 0 10px;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            text-align: center;
+            border: 2px solid transparent !important;
+            cursor: pointer;
+            font-size: 14px;
+            position: relative;
+            transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+        }
+        .date:hover {
+            background-color: #d0d0d0;
+            transform: scale(1.1);
+        }
+        .today {
+            border-color: green !important;
+        }
+        .next-day {
+            border-color: black !important;
+        }
+        .content {
+            height: calc(100vh - 25% - 30px);
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" id="dateHeader">
+        <!-- Даты будут вставлены сюда -->
+    </div>
+    <div class="content">
+        <!-- Основное содержимое страницы -->
+    </div>
+
+    <script>
+        function getStartOfWeek(date) {
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Понедельник
+            return new Date(date.setDate(diff));
+        }
+
+        function formatDate(date) {
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        function renderWeekDates() {
+            const today = new Date();
+            const startOfWeek = getStartOfWeek(new Date(today));
+            const header = document.getElementById('dateHeader');
+            
+            console.log("Today: " + today.toDateString());
+
+            // Сохранение оригинальной даты
+            const originalToday = new Date(today);
+
+            // Форматирование сегодняшней даты
+            const todayFormatted = formatDate(originalToday);
+
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(startOfWeek);
+                date.setDate(date.getDate() + i);
+                
+                const dateButton = document.createElement('button');
+                dateButton.classList.add('date');
+                dateButton.textContent = formatDate(date);
+
+                // Логирование всех классов, применённых к кнопке
+                console.log("Applying classes to button: " + formatDate(date));
+                console.log("Current classes before adding: " + dateButton.className);
+
+                // Определяем, какую дату отмечать
+                if (formatDate(date) === todayFormatted) {
+                    dateButton.classList.add('today');
+                    console.log("Added 'today' class to: " + formatDate(date));
+                } else if (i === 1 && formatDate(date) === formatDate(new Date(originalToday.setDate(originalToday.getDate() + 1)))) {
+                    dateButton.classList.add('next-day');
+                    console.log("Added 'next-day' class to: " + formatDate(date));
+                }
+
+                // Логирование текущего стиля border-color
+                dateButton.addEventListener('mouseover', function() {
+                    const borderColor = getComputedStyle(dateButton).borderColor;
+                    console.log("Current border-color for " + formatDate(date) + ": " + borderColor);
+                });
+
+                // Логирование после добавления кнопки в DOM
+                dateButton.addEventListener('click', function() {
+                    console.log("Clicked button with date: " + formatDate(date));
+                });
+
+                console.log("Created button with date: " + formatDate(date));
+                console.log("Current classes after adding: " + dateButton.className);
+
+                header.appendChild(dateButton);
+            }
+        }
+
+        renderWeekDates();
+    </script>
+</body>
+</html>
