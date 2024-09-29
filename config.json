@@ -31,6 +31,9 @@
         "internet_status": true,
         "os": "nt",
         "local_ip": "26.184.202.31",
-        "external_ip": "95.220.3.238"
+        "external_ip": "95.220.62.50"
+    },
+    "camera": {
+        "camera1": "rtsp://prghorse:s10102008s@192.168.1.100:554/stream2"
     }
 }
